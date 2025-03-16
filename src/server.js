@@ -2,7 +2,7 @@ require('dotenv').config();
 const Hapi = require('@hapi/hapi');
 const Jwt = require('@hapi/jwt');
 const ClientError = require('./exceptions/ClientError');
-const config = require('src/utils/config.js');
+const config = require('./utils/config');
 
 // album
 const albums = require('./api/albums');
