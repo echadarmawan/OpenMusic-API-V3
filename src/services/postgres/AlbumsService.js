@@ -25,6 +25,19 @@ class AlbumsService {
     return result.rows[0].id;
   }
 
+  async addCoverAlbum(id, coverUrl) {
+    const query = {
+      text: 'UPDATE albums SET "coverUrl" = $1 WHERE id = $2 RETURNING id',
+      values: [coverUrl, id],
+    };
+
+    const result = await this._pool.query(query);
+
+    if (!result.rows.length) {
+      throw new NotFoundError('Album tidak ditemukan');
+    }
+  }
+
   async getAlbumById(id) {
     const queryAlbum = {
       text: 'SELECT * FROM albums WHERE id = $1',
@@ -47,6 +60,7 @@ class AlbumsService {
       id: resultAlbum.rows[0].id,
       name: resultAlbum.rows[0].name,
       year: resultAlbum.rows[0].year,
+      coverUrl: resultAlbum.rows[0].coverUrl,
       songs: resultSong.rows
     };
   }
